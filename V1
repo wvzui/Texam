@@ -1,0 +1,1732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Banking & Finance Exam Practice</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&display=swap');
+
+  :root {
+    --navy: #0B1F3A;
+    --navy-mid: #132847;
+    --navy-light: #1E3A5F;
+    --gold: #C9A84C;
+    --gold-light: #E8C96D;
+    --cream: #F7F4EE;
+    --cream-dark: #EDE8DF;
+    --green: #2D6A4F;
+    --green-light: #52B788;
+    --red: #9B2335;
+    --red-light: #D64045;
+    --gray: #8C8C8C;
+    --text: #1A1A2E;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--navy);
+    color: white;
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+  }
+  .header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .header-title {
+    font-family: 'IBM Plex Serif', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--gold-light);
+  }
+  .header-subtitle {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 2px;
+  }
+  .header-score {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--gold-light);
+    text-align: right;
+  }
+
+  /* ── TOPIC SELECTOR ── */
+  .topic-bar {
+    background: var(--navy-mid);
+    border-bottom: 2px solid var(--gold);
+  }
+  .topic-bar-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    gap: 0;
+  }
+  .topic-btn {
+    flex: 1;
+    padding: 14px 12px;
+    background: transparent;
+    border: none;
+    color: rgba(255,255,255,0.55);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-right: 1px solid rgba(255,255,255,0.1);
+    text-align: center;
+    line-height: 1.4;
+  }
+  .topic-btn:last-child { border-right: none; }
+  .topic-btn.active {
+    background: var(--gold);
+    color: var(--navy);
+    font-weight: 600;
+  }
+  .topic-btn:not(.active):hover {
+    background: rgba(201,168,76,0.15);
+    color: var(--gold-light);
+  }
+  .topic-num {
+    display: block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem;
+    opacity: 0.7;
+    margin-bottom: 2px;
+  }
+
+  /* ── MAIN LAYOUT ── */
+  .main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 24px;
+  }
+
+  /* ── PROGRESS BAR ── */
+  .progress-wrap {
+    margin-bottom: 28px;
+  }
+  .progress-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .progress-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .progress-fraction {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--navy);
+    font-weight: 600;
+  }
+  .progress-bar {
+    height: 6px;
+    background: var(--cream-dark);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    border-radius: 3px;
+    transition: width 0.4s ease;
+  }
+
+  /* ── QUESTION CARD ── */
+  .question-area { display: none; }
+  .question-area.active { display: block; }
+
+  .q-card {
+    background: white;
+    border-radius: 4px;
+    border: 1px solid var(--cream-dark);
+    padding: 32px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 8px rgba(0,0,0,0.05);
+  }
+  .q-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+  }
+  .q-number {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--gold);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .q-difficulty {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem;
+    padding: 3px 10px;
+    border-radius: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .diff-basic { background: #E8F5E9; color: #2D6A4F; }
+  .diff-intermediate { background: #FFF8E1; color: #8B6914; }
+  .diff-advanced { background: #FDE8E8; color: #9B2335; }
+
+  .q-text {
+    font-family: 'IBM Plex Serif', serif;
+    font-size: 1.08rem;
+    line-height: 1.65;
+    color: var(--text);
+    margin-bottom: 24px;
+  }
+
+  /* ── OPTIONS ── */
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .opt-btn {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 18px;
+    background: var(--cream);
+    border: 2px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.18s;
+    text-align: left;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 0.92rem;
+    color: var(--text);
+    line-height: 1.5;
+  }
+  .opt-btn:hover:not(:disabled) {
+    background: white;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 1px var(--gold);
+  }
+  .opt-letter {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--gray);
+    min-width: 20px;
+    padding-top: 2px;
+    transition: color 0.18s;
+  }
+  .opt-btn:hover:not(:disabled) .opt-letter { color: var(--gold); }
+
+  .opt-btn.correct {
+    background: #EDF7F1;
+    border-color: var(--green);
+    color: var(--green);
+  }
+  .opt-btn.correct .opt-letter { color: var(--green); }
+  .opt-btn.wrong {
+    background: #FDF0F0;
+    border-color: var(--red-light);
+    color: var(--red);
+  }
+  .opt-btn.wrong .opt-letter { color: var(--red); }
+  .opt-btn.reveal {
+    background: #EDF7F1;
+    border-color: var(--green);
+    color: var(--green);
+    opacity: 0.7;
+  }
+  .opt-btn:disabled { cursor: default; }
+
+  /* ── FEEDBACK ── */
+  .feedback {
+    margin-top: 20px;
+    padding: 16px 20px;
+    border-radius: 4px;
+    display: none;
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+  .feedback.show { display: block; }
+  .feedback.correct-fb {
+    background: #EDF7F1;
+    border-left: 4px solid var(--green);
+    color: #1A4A33;
+  }
+  .feedback.wrong-fb {
+    background: #FDF0F0;
+    border-left: 4px solid var(--red-light);
+    color: #5C1A1A;
+  }
+  .feedback strong {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  /* ── CONTROLS ── */
+  .controls {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .btn {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 12px 24px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.18s;
+    letter-spacing: 0.02em;
+  }
+  .btn-primary {
+    background: var(--navy);
+    color: white;
+  }
+  .btn-primary:hover { background: var(--navy-light); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--navy);
+    border: 2px solid var(--navy);
+  }
+  .btn-secondary:hover { background: var(--navy); color: white; }
+  .btn-gold {
+    background: var(--gold);
+    color: var(--navy);
+  }
+  .btn-gold:hover { background: var(--gold-light); }
+  .btn:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+
+  /* ── RESULTS PANEL ── */
+  .results-panel {
+    display: none;
+    background: white;
+    border-radius: 4px;
+    border: 1px solid var(--cream-dark);
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+  }
+  .results-panel.show { display: block; }
+  .results-grade {
+    font-family: 'IBM Plex Serif', serif;
+    font-size: 5rem;
+    font-weight: 600;
+    color: var(--navy);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .results-pct {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1rem;
+    color: var(--gold);
+    margin-bottom: 24px;
+  }
+  .results-stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin: 28px 0;
+    flex-wrap: wrap;
+  }
+  .stat-item { text-align: center; }
+  .stat-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--navy);
+  }
+  .stat-label {
+    font-size: 0.75rem;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 4px;
+  }
+  .results-msg {
+    font-family: 'IBM Plex Serif', serif;
+    font-size: 1.05rem;
+    color: var(--text);
+    max-width: 460px;
+    margin: 0 auto 28px;
+    line-height: 1.6;
+  }
+
+  /* ── QUESTION NAV GRID ── */
+  .q-nav {
+    margin-top: 28px;
+    background: white;
+    border: 1px solid var(--cream-dark);
+    border-radius: 4px;
+    padding: 20px;
+  }
+  .q-nav-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 12px;
+  }
+  .q-nav-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .q-dot {
+    width: 32px;
+    height: 32px;
+    border-radius: 3px;
+    border: 1px solid var(--cream-dark);
+    background: var(--cream);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--gray);
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .q-dot:hover { border-color: var(--gold); color: var(--navy); }
+  .q-dot.answered-correct { background: #EDF7F1; border-color: var(--green); color: var(--green); }
+  .q-dot.answered-wrong { background: #FDF0F0; border-color: var(--red-light); color: var(--red); }
+  .q-dot.current { border-color: var(--gold); background: var(--gold); color: var(--navy); font-weight: 700; }
+
+  /* ── AI EXPLAIN BTN ── */
+  .ai-btn {
+    margin-top: 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    padding: 8px 16px;
+    background: transparent;
+    border: 1px solid var(--navy);
+    border-radius: 3px;
+    color: var(--navy);
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: all 0.18s;
+  }
+  .ai-btn:hover { background: var(--navy); color: white; }
+  .ai-explain-box {
+    margin-top: 12px;
+    padding: 16px;
+    background: var(--cream);
+    border-radius: 4px;
+    font-size: 0.88rem;
+    line-height: 1.7;
+    color: var(--text);
+    border-left: 3px solid var(--gold);
+    display: none;
+  }
+  .ai-explain-box.show { display: block; }
+  .ai-loading {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--gray);
+    font-size: 0.82rem;
+  }
+  .spinner {
+    width: 14px;
+    height: 14px;
+    border: 2px solid var(--cream-dark);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  @media (max-width: 640px) {
+    .main { padding: 20px 16px; }
+    .q-card { padding: 22px 18px; }
+    .q-text { font-size: 0.97rem; }
+    .results-grade { font-size: 3.5rem; }
+    .results-stats { gap: 24px; }
+    .topic-btn { font-size: 0.68rem; padding: 10px 6px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div>
+      <div class="header-title">Banking &amp; Finance — Exam Practice</div>
+      <div class="header-subtitle">Bachelor's Degree · Topics 1–3</div>
+    </div>
+    <div class="header-score" id="headerScore">Score: — / —</div>
+  </div>
+  <div class="topic-bar">
+    <div class="topic-bar-inner">
+      <button class="topic-btn active" onclick="switchTopic(0)">
+        <span class="topic-num">TOPIC 1</span>Overview of the Financial Services Sector
+      </button>
+      <button class="topic-btn" onclick="switchTopic(1)">
+        <span class="topic-num">TOPIC 2</span>Financial Statements of Banks
+      </button>
+      <button class="topic-btn" onclick="switchTopic(2)">
+        <span class="topic-num">TOPIC 3</span>Measuring &amp; Evaluating Bank Performance
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="main">
+  <div class="progress-wrap">
+    <div class="progress-meta">
+      <span class="progress-label">Progress</span>
+      <span class="progress-fraction" id="progressFraction">0 / 0</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  </div>
+
+  <div id="quizArea"></div>
+  <div class="results-panel" id="resultsPanel"></div>
+
+  <div class="controls" id="controls" style="margin-top:20px;">
+    <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()" disabled>Next Question →</button>
+    <button class="btn btn-secondary" id="prevBtn" onclick="prevQuestion()">← Previous</button>
+    <button class="btn btn-gold" id="finishBtn" onclick="showResults()" style="display:none;">Finish &amp; See Results</button>
+    <button class="btn btn-secondary" id="restartBtn" onclick="restartTopic()" style="display:none;">Restart Topic</button>
+  </div>
+
+  <div class="q-nav" id="qNavPanel">
+    <div class="q-nav-title">Question Navigator</div>
+    <div class="q-nav-grid" id="qNavGrid"></div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+//  QUESTION BANK  (50+ per topic)
+// ═══════════════════════════════════════════════════════════════
+const topics = [
+
+// ──────────────── TOPIC 1 ────────────────
+{
+  title: "Topic 1: Overview of the Financial Services Sector",
+  questions: [
+    {
+      q: "Which of the following best describes the primary role of banks as described in Chapter One?",
+      opts: ["To maximize government tax revenues","To serve as the principal source of credit for individuals, families, and units of government","To issue government bonds exclusively","To regulate other financial institutions"],
+      ans: 1, diff: "basic",
+      expl: "Banks are identified as the principal source of credit (loanable funds) for millions of individuals, families, and many units of government."
+    },
+    {
+      q: "According to the material, U.S. bank assets represent approximately what proportion of total financial assets in the United States?",
+      opts: ["One-half","One-quarter","One-fifth","One-third"],
+      ans: 2, diff: "basic",
+      expl: "The material states that the assets held by U.S. banks represent about one-fifth of total assets, contrasting with other nations where banks often hold half or more."
+    },
+    {
+      q: "Which institution type best fits the description: 'Cover whole regions, nations, and continents and offer the widest possible menu of financial services'?",
+      opts: ["Community banks","Cooperative banks","Money-center banks","Credit unions"],
+      ans: 2, diff: "basic",
+      expl: "Money-center banks (e.g., Maybank, CIMB, HSBC) are described as industry leaders covering whole regions, nations, and continents while offering the widest possible menu of financial services."
+    },
+    {
+      q: "Community banks are characterized by which of the following features?",
+      opts: ["They compete globally and acquire smaller businesses","They are much smaller and service local communities with a narrower but often more personalized menu of services","They are exclusively government-owned","They primarily issue international bonds"],
+      ans: 1, diff: "basic",
+      expl: "Community banks are much smaller, service local communities and towns, and offer a narrower but often more personalized menu of financial services."
+    },
+    {
+      q: "Under U.S. federal law, a bank came to be legally defined primarily by:",
+      opts: ["The range of loans it issues","The number of branches it operates","The government agency insuring its deposits (FDIC)","The size of its equity capital"],
+      ans: 2, diff: "intermediate",
+      expl: "Congress defined a bank as any institution that could qualify for deposit insurance administered by the FDIC; thus, a bank was defined not so much by its service offerings but by its deposit insurer."
+    },
+    {
+      q: "The Financial Services Modernization Act (Gramm-Leach-Bliley Act) of 1999 is significant because it:",
+      opts: ["Created the FDIC","Prohibited banks from selling insurance","Allowed many different types of financial firms to offer one-stop shopping for financial services","Banned commercial banks from investment banking"],
+      ans: 2, diff: "intermediate",
+      expl: "The Gramm-Leach-Bliley Act of 1999 allowed many different types of financial firms to offer the public one-stop shopping for financial services, making it harder to differentiate banks from other financial-service providers."
+    },
+    {
+      q: "Which of the following is NOT listed as a service banks have offered for centuries?",
+      opts: ["Carrying out currency exchange","Offering checking accounts","Selling insurance policies","Safekeeping of valuables"],
+      ans: 2, diff: "basic",
+      expl: "Selling insurance policies is a more recent service banks began offering in the past century. The century-old services include currency exchange, demand deposits, safekeeping of valuables, and trust services."
+    },
+    {
+      q: "Which of the following is a key trend affecting all financial-service firms identified in the material?",
+      opts: ["Declining technological innovation","Decreasing competition","Globalization","Reduction in government regulation"],
+      ans: 2, diff: "basic",
+      expl: "The material lists Globalization as one of the key trends affecting all financial-service firms, along with service proliferation, rising competition, technological change, consolidation, convergence, and others."
+    },
+    {
+      q: "The primary purpose of the financial system, as described in Chapter One, is to:",
+      opts: ["Maximize government spending","Encourage savings and transfer those savings to individuals and institutions planning to invest","Regulate currency exchange rates","Provide employment in the banking sector"],
+      ans: 1, diff: "basic",
+      expl: "The primary purpose of the financial system is to encourage savings and to transfer those savings to individuals and institutions planning to invest and needing credit to do so."
+    },
+    {
+      q: "Which banking legislation in Malaysia replaced the Banking and Financial Institutions Act (BAFIA)?",
+      opts: ["Exchange Control Act 1953","Anti Money Laundering Act 2001","Financial Services Act (FSA) 2013","Islamic Financial Institutions Act 2000"],
+      ans: 2, diff: "intermediate",
+      expl: "The Financial Services Act (FSA) 2013 replaced BAFIA and provides a framework for integrated supervision of the Malaysian financial system."
+    },
+    {
+      q: "Under Malaysian law, the maximum shareholding by an individual in a licensed local financial institution is:",
+      opts: ["5%","10%","20%","25%"],
+      ans: 1, diff: "intermediate",
+      expl: "Under the FSA 2013, individuals are limited to a maximum of 10% shareholding in licensed local financial institutions, while persons other than individuals are limited to 20%."
+    },
+    {
+      q: "The Anti Money Laundering and Anti Terrorism Act 2001 in Malaysia covers which of the following?",
+      opts: ["Only the definition of money laundering","Offences, prevention measures, forfeiture of property, and reporting of suspicious transactions","Only reporting requirements for banks","Only penalties for terrorism financing"],
+      ans: 1, diff: "intermediate",
+      expl: "The Act covers the definition of money laundering, offences under money laundering activities, measures for prevention, forfeiture of property from money laundering activities, and record keeping and reporting of suspicious transactions."
+    },
+    {
+      q: "Which of the following best describes 'fringe banks' as competitors of traditional banks?",
+      opts: ["Large multinational financial conglomerates","Non-traditional providers such as payday lenders and check cashers serving underbanked populations","Government-owned savings institutions","Investment banks specializing in securities underwriting"],
+      ans: 1, diff: "intermediate",
+      expl: "Fringe banks are non-traditional competitors that typically serve underbanked or credit-impaired customers through services like payday lending and check cashing."
+    },
+    {
+      q: "Which of the following financial innovations is associated with banks expanding their service menus in recent decades?",
+      opts: ["Restricting services to demand deposits only","Offering investment banking, insurance protection, and financial planning","Eliminating trust services","Reducing cross-border lending"],
+      ans: 1, diff: "basic",
+      expl: "Bank service menus are expanding rapidly to include investment banking, insurance protection, financial planning, advice for merging companies, risk-management services, and numerous other innovative financial products."
+    },
+    {
+      q: "The Islamic Financial Services Act 2013 in Malaysia will have an impact on which of the following?",
+      opts: ["Only Islamic banks","All commercial banks and financial holding companies","The establishment of financial holding companies and limits on shareholding","Only consumer protection laws"],
+      ans: 2, diff: "intermediate",
+      expl: "The IFSA 2013 affects the establishment/identification of financial holding companies, greater BNM oversight, limits on shareholding, the end of composite licenses, and greater responsibility on consumer protection."
+    },
+    {
+      q: "According to the material, which statement best describes the argument that 'banking is not dying but changing'?",
+      opts: ["Banks are losing all their customers to competitors","Banks are offering new services and changing their form to remain competitive","Banks are being fully replaced by fintech companies","Banks are becoming more restrictive in their service offerings"],
+      ans: 1, diff: "intermediate",
+      expl: "Some experts counter that banking is not dying but changing by offering new services and changing its form, even as traditional banking faces competitive pressure."
+    },
+    {
+      q: "The Exchange Control Act 1953 in Malaysia governs transactions in which areas?",
+      opts: ["Only domestic bank loans","Foreign exchange transactions including import/export, capital accounts, foreign direct investments, and portfolio investments","Islamic banking operations only","Consumer credit protection"],
+      ans: 1, diff: "intermediate",
+      expl: "The Exchange Control Act 1953 governs conduct of foreign exchange transactions including current accounts (import/export), capital accounts, foreign direct investments, investment abroad by residents, foreign credit facilities, portfolio investments, and Ringgit credit facilities."
+    },
+    {
+      q: "Which of the following is a 'supporting service' provided by the financial system in addition to its primary purpose?",
+      opts: ["Issuing government bonds","Payment services, risk protection services, and liquidity services","Setting national interest rates","Printing currency"],
+      ans: 1, diff: "basic",
+      expl: "The financial system provides supporting services including payment services, risk protection services, and liquidity services, in addition to its primary role of encouraging savings and directing investment."
+    },
+    {
+      q: "A Loan Officer, Credit Analyst, and Trust Department Specialist are examples of what?",
+      opts: ["Types of bank competitors","Career opportunities in banking and financial services","Types of financial instruments","Regulatory positions"],
+      ans: 1, diff: "basic",
+      expl: "These are examples of the different kinds of professionals who work inside financial firms, as listed in the Appendix on Career Opportunities in Banking and Financial Services."
+    },
+    {
+      q: "Which of the following best describes 'convergence' as a trend in financial services?",
+      opts: ["Banks shrinking their operations","Different types of financial service providers increasingly offering the same types of services","Banks merging only with other banks","Governments nationalizing private banks"],
+      ans: 1, diff: "intermediate",
+      expl: "Convergence refers to financial-service providers converging in terms of the services they offer, making it difficult to differentiate banks from other financial-service providers."
+    },
+    {
+      q: "Which of the following best distinguishes a 'money market fund' from a traditional commercial bank?",
+      opts: ["Money market funds accept demand deposits insured by the government","Money market funds invest in short-term, high-quality debt instruments and are not deposit-taking institutions","Money market funds are regulated by the FDIC","Money market funds provide mortgage loans"],
+      ans: 1, diff: "intermediate",
+      expl: "Money market funds invest in short-term, high-quality debt instruments and are competitors to banks, but they do not accept FDIC-insured deposits as commercial banks do."
+    },
+    {
+      q: "The BNM General Guidelines (BNM/GP series) cover which of the following areas?",
+      opts: ["Only interest rate policy","Corporate governance, non-performing loan suspensions, staff training, credit limits, and consumer protection for electronic fund transfers","Only foreign exchange controls","Only anti-money laundering measures"],
+      ans: 1, diff: "intermediate",
+      expl: "The BNM/GP series covers a wide range including corporate governance, suspension of interest on NPLs, staff training fund, credit limits, code of conduct, financial reporting, internal audit, and consumer protection for electronic fund transfers."
+    },
+    {
+      q: "Which of the following services did banks begin offering more recently (within the past century) rather than centuries ago?",
+      opts: ["Carrying out currency exchange","Discounting commercial notes","Granting consumer loans and selling retirement plans","Offering demand deposit accounts"],
+      ans: 2, diff: "basic",
+      expl: "Granting consumer loans, selling insurance policies, managing retirement plans, and investment banking are among the more recent services, while currency exchange, bill discounting, and demand deposits are centuries-old banking services."
+    },
+    {
+      q: "What does 'service proliferation' mean as a trend in financial services?",
+      opts: ["Reduction in the number of banks","Rapid expansion in the range and variety of services offered by financial institutions","Decline in consumer demand for banking services","Banks withdrawing from international markets"],
+      ans: 1, diff: "basic",
+      expl: "Service proliferation refers to the rapid expansion in the range and variety of services offered by financial institutions, contributing to increased competition and convergence."
+    },
+    {
+      q: "According to the material, what argument supports the view that traditional banking may be 'regulated to death'?",
+      opts: ["Banks are becoming too profitable","Banking is subject to extensive regulation that may disadvantage it competitively, while competitors face less regulation","Consumers prefer non-bank financial services","Banks voluntarily exited certain markets"],
+      ans: 1, diff: "advanced",
+      expl: "The material raises the concern that banking may be 'regulated to death' because extensive regulation may put banks at a competitive disadvantage versus less-regulated competitors, while the largest customers borrow directly from open markets."
+    },
+    {
+      q: "Which Malaysian regulatory body has the power to grant and revoke banking licences?",
+      opts: ["Ministry of Finance","Securities Commission","Bank Negara Malaysia (BNM)","Bursa Malaysia"],
+      ans: 2, diff: "basic",
+      expl: "Under the Financial Services Act 2013, Bank Negara Malaysia is empowered to grant and revoke licences for financial institutions."
+    },
+    {
+      q: "In the context of Malaysian banking legislation, what does 'banking secrecy' refer to?",
+      opts: ["Keeping bank merger negotiations confidential","The legal obligation of banks to protect confidential customer information","The right of banks to withhold financial statements from BNM","The prohibition on disclosing exchange rate information"],
+      ans: 1, diff: "intermediate",
+      expl: "Banking secrecy is a provision under the FSA that legally obligates banks to protect the confidential financial information of their customers."
+    },
+    {
+      q: "Which of the following best describes the role of 'hedge funds' as competitors to banks?",
+      opts: ["They are regulated like commercial banks and accept retail deposits","They are pooled investment vehicles using sophisticated strategies, often taking on significant leverage and risk","They exclusively provide mortgages to homeowners","They are government-sponsored enterprises"],
+      ans: 1, diff: "intermediate",
+      expl: "Hedge funds are pooled investment vehicles that use sophisticated strategies (including leverage, short-selling, derivatives), and they compete with banks in areas like lending and capital markets."
+    },
+    {
+      q: "What is the significance of 'consolidation and geographic expansion' as a trend in banking?",
+      opts: ["Banks are reducing their branch networks to cut costs","Mergers, acquisitions, and geographic expansion are reshaping the industry by creating fewer, larger banks serving wider markets","Banks are prohibited from merging by regulators","Small community banks are growing fastest"],
+      ans: 1, diff: "intermediate",
+      expl: "Consolidation and geographic expansion is a key trend in which mergers and acquisitions are creating fewer but larger banks serving broader geographic markets."
+    },
+    {
+      q: "Which of the following is a service banks have offered for centuries, predating modern financial innovation?",
+      opts: ["Offering venture capital loans","Selling mutual funds","Offering trust services and safekeeping of valuables","Providing equipment leasing"],
+      ans: 2, diff: "basic",
+      expl: "Trust services and safekeeping of valuables are among the oldest banking services, offered for centuries, unlike more modern services like mutual funds or venture capital."
+    },
+    {
+      q: "The material notes that the process of encouraging savings and transforming them into investment spending causes the economy to:",
+      opts: ["Shrink and reduce employment","Grow, create new jobs, and raise living standards","Remain stable with no change","Increase inflation only"],
+      ans: 1, diff: "basic",
+      expl: "The transformation of savings into investment spending is described as causing the economy to grow, new jobs to be created, and living standards to rise."
+    },
+    {
+      q: "Which Malaysian Act would primarily govern an incident involving a bank employee laundering money through customer accounts?",
+      opts: ["Exchange Control Act 1953","Banking and Financial Institutions Act","Anti Money Laundering and Anti Terrorism Act 2001","Islamic Financial Services Act 2013"],
+      ans: 2, diff: "intermediate",
+      expl: "The Anti Money Laundering and Anti Terrorism Act 2001 specifically defines money laundering offences and measures for prevention, making it the primary legislation applicable."
+    },
+    {
+      q: "Which of the following professional roles in banking is primarily concerned with evaluating a borrower's ability to repay a loan?",
+      opts: ["Teller","Branch Manager","Credit Analyst","Systems Analyst"],
+      ans: 2, diff: "basic",
+      expl: "A Credit Analyst's primary role is to evaluate the creditworthiness of borrowers, assessing their ability to repay loans."
+    },
+    {
+      q: "Which of the following is a key characteristic that distinguishes 'investment banks' from commercial banks?",
+      opts: ["Investment banks primarily accept retail deposits","Investment banks primarily assist companies in raising capital through securities issuance and provide advisory services","Investment banks are restricted to domestic markets","Investment banks are regulated by the FDIC"],
+      ans: 1, diff: "intermediate",
+      expl: "Investment banks primarily help companies raise capital through securities issuance (underwriting) and provide advisory services for mergers and acquisitions, unlike commercial banks which primarily accept deposits and make loans."
+    },
+    {
+      q: "According to the material, what is one way the value of a financial firm's stock might rise?",
+      opts: ["An increase in perceived risk","An increase in market interest rates","The expected value of future stockholder dividends increases","A reduction in the firm's total assets"],
+      ans: 2, diff: "intermediate",
+      expl: "The material states that stock value tends to rise when the value of the stream of future stockholder dividends is expected to increase, among other conditions."
+    },
+    {
+      q: "Under Malaysian banking regulation, a disposal of an aggregate of what percentage of shareholdings requires prior approval of BNM?",
+      opts: ["1%","3%","5%","10%"],
+      ans: 2, diff: "intermediate",
+      expl: "Under the FSA 2013, disposal of an aggregate of 5% or more of shareholdings in a licensed financial institution requires prior approval of Bank Negara Malaysia."
+    },
+    {
+      q: "Which of the following best describes 'off-balance-sheet items' in banking?",
+      opts: ["Assets that have been written off as uncollectible","Financial obligations and commitments not recorded as assets or liabilities on the balance sheet, such as derivatives and standby credit agreements","Historical cost adjustments for fixed assets","Reserve requirements held at the central bank"],
+      ans: 1, diff: "advanced",
+      expl: "Off-balance-sheet items are financial obligations and instruments (like unused commitments, standby credit agreements, and derivatives) that don't appear as assets or liabilities on the formal balance sheet but represent real financial exposure."
+    },
+    {
+      q: "The concept of 'one-stop shopping for financial services' refers to:",
+      opts: ["A single bank branch serving all customer needs","Financial conglomerates offering a full range of banking, insurance, securities, and other services under one corporate roof","Shopping centres that include bank branches","Government financial service centres"],
+      ans: 1, diff: "basic",
+      expl: "One-stop shopping refers to financial conglomerates that provide banking, insurance, securities, and other services under one corporate umbrella, enabled in the US by the Gramm-Leach-Bliley Act 1999."
+    },
+    {
+      q: "Which of the following is NOT listed as a career opportunity in banking and financial services in the appendix?",
+      opts: ["Bank Examiners and Regulators","Risk Management Specialists","Actuaries","Investment Banking Specialists"],
+      ans: 2, diff: "basic",
+      expl: "Actuaries are not listed in the appendix. The roles listed include Loan Officers, Credit Analysts, Security Analysts and Traders, Investment Banking Specialists, Risk Management Specialists, Bank Examiners and Regulators, and others."
+    },
+    {
+      q: "A 'finance company' as a bank competitor primarily:",
+      opts: ["Accepts insured deposits from the public","Raises funds by issuing commercial paper and bonds, then makes loans to consumers and businesses","Manages pension funds on behalf of governments","Provides only foreign exchange services"],
+      ans: 1, diff: "intermediate",
+      expl: "Finance companies raise funds through commercial paper and bond issuance and use those funds to make consumer and business loans, competing with banks without holding insured deposits."
+    },
+    {
+      q: "According to the material, in countries other than the U.S., banks typically hold what proportion of total assets in the financial system?",
+      opts: ["About one-fifth","About one-quarter","Half or more","About one-third"],
+      ans: 2, diff: "basic",
+      expl: "The material states that in other nations, banks hold half or more of all assets in the financial system, compared to about one-fifth in the United States."
+    },
+    {
+      q: "Which of the following best describes the significance of the Gramm-Leach-Bliley Act for banks?",
+      opts: ["It restricted banks from merging with insurance companies","It enabled banks and other financial institutions to compete more directly, blurring the lines between banks and non-bank financial firms","It created the FDIC to insure bank deposits","It mandated banks to hold higher capital reserves"],
+      ans: 1, diff: "intermediate",
+      expl: "The Gramm-Leach-Bliley Act allowed different types of financial firms (banks, insurance companies, securities firms) to offer the same services, significantly blurring the distinction between banks and non-bank financial firms."
+    },
+    {
+      q: "Which of the following best describes the role of 'regulatory compliance officers' in a bank?",
+      opts: ["They manage the bank's loan portfolio","They ensure the bank adheres to applicable laws, regulations, and internal policies","They set the bank's interest rates","They oversee international operations"],
+      ans: 1, diff: "basic",
+      expl: "Regulatory Compliance Officers ensure that the bank adheres to applicable laws, regulations, and internal policies, a critically important function given the heavily regulated nature of banking."
+    },
+    {
+      q: "What does 'technological change and automation' as a trend in banking primarily refer to?",
+      opts: ["Reduction in bank employees","The adoption of technology such as ATMs, online banking, electronic payments, and AI that reshapes how banks deliver services","Increased paper-based processing","Reduction in the number of financial products offered"],
+      ans: 1, diff: "basic",
+      expl: "Technological change and automation refers to the widespread adoption of ATMs, online banking, electronic payments, and emerging technologies that fundamentally reshape how financial services are delivered."
+    },
+    {
+      q: "According to the material, 'savings associations' compete with banks primarily by:",
+      opts: ["Issuing corporate bonds","Primarily accepting savings deposits and making mortgage loans, serving functions similar to banks","Providing insurance and annuity products","Underwriting government securities"],
+      ans: 1, diff: "intermediate",
+      expl: "Savings associations (thrift institutions) compete with banks by accepting savings deposits and primarily making mortgage and consumer loans, functions that overlap significantly with commercial banking."
+    },
+    {
+      q: "Which characteristic makes 'credit unions' distinct from commercial banks?",
+      opts: ["Credit unions are profit-maximizing corporations","Credit unions are non-profit cooperatives owned by their members, serving a specific group or community","Credit unions are insured by private insurance companies only","Credit unions do not accept deposits"],
+      ans: 1, diff: "basic",
+      expl: "Credit unions are non-profit cooperative financial institutions owned by their members, typically serving a specific group (e.g., employees of a company or members of a community)."
+    },
+    {
+      q: "A 'financial holding company' in the context of Malaysian banking legislation refers to:",
+      opts: ["A company that holds only non-financial assets","A parent company that owns controlling stakes in various financial institutions and is subject to consolidated supervision by BNM","A foreign bank's local subsidiary","A company that exclusively manages retirement funds"],
+      ans: 1, diff: "advanced",
+      expl: "A financial holding company is a parent company that owns controlling stakes in one or more financial institutions and is subject to consolidated regulation and supervision by BNM under the FSA 2013."
+    },
+    {
+      q: "Which of the following is a risk management service that banks and their competitors offer to businesses?",
+      opts: ["Simple savings accounts","Hedging services using derivatives like swaps, options, and futures","Basic check cashing","Currency printing"],
+      ans: 1, diff: "intermediate",
+      expl: "Banks and their competitors offer risk management and hedging services using instruments like swaps, options, and futures contracts to help businesses manage interest rate, currency, and commodity price risks."
+    },
+    {
+      q: "The material describes banks as granting more of which type of loan to consumers than any other financial-service provider worldwide?",
+      opts: ["Mortgage loans","Business loans","Installment loans","Agricultural loans"],
+      ans: 2, diff: "basic",
+      expl: "Worldwide, banks grant more installment loans to consumers (individuals and families) than any other financial-service provider."
+    },
+    {
+      q: "Which of the following best summarizes why 'differentiating banks from other financial-service providers is difficult today'?",
+      opts: ["Banks have stopped offering traditional services","Due to deregulation and convergence, banks and non-bank financial firms increasingly offer the same products and services","Banks are more profitable than all competitors","Regulators have merged bank and non-bank categories"],
+      ans: 1, diff: "intermediate",
+      expl: "The challenge of differentiation arises from deregulation (Gramm-Leach-Bliley) and convergence: financial-service providers are offering increasingly similar products and services, blurring the traditional distinction of banks."
+    },
+    {
+      q: "The provision that 'licensed local financial institutions are prohibited from cross-shareholding' under Malaysian law is designed primarily to:",
+      opts: ["Encourage consolidation among banks","Prevent conflicts of interest and maintain competitive independence among banks","Reduce foreign investment in Malaysian banks","Limit the profitability of large banks"],
+      ans: 1, diff: "advanced",
+      expl: "The prohibition on shareholding by other licensed local financial institutions is designed to prevent conflicts of interest, maintain competitive independence, and avoid concentration of ownership that could compromise prudent financial management."
+    },
+    {
+      q: "Which of the following best describes 'merchant banking services'?",
+      opts: ["Retail banking services for individual customers","Advisory services for large corporations including mergers, acquisitions, capital raising, and private equity","Services exclusively for agricultural borrowers","Currency exchange for tourists"],
+      ans: 1, diff: "advanced",
+      expl: "Merchant banking involves providing advisory, financing, and capital-raising services to large corporations, including mergers and acquisitions advice, underwriting, and private equity investment."
+    },
+    {
+      q: "What does the acronym 'BAFIA' stand for in Malaysian banking?",
+      opts: ["Banking Administration and Finance Investment Act","Banking and Financial Institutions Act","Bank Assets and Foreign Investment Authority","Bursa and Finance Industry Administration Act"],
+      ans: 1, diff: "basic",
+      expl: "BAFIA stands for Banking and Financial Institutions Act, which was the main piece of legislation governing Malaysian banking before being replaced by the Financial Services Act 2013."
+    }
+  ]
+},
+
+// ──────────────── TOPIC 2 ────────────────
+{
+  title: "Topic 2: Financial Statements of Banks",
+  questions: [
+    {
+      q: "The 'Report of Condition' is another name for which financial statement?",
+      opts: ["Income statement","Cash flow statement","Balance sheet","Statement of retained earnings"],
+      ans: 2, diff: "basic",
+      expl: "The Report of Condition is the formal name for a bank's balance sheet, listing assets, liabilities, and equity capital at a given date."
+    },
+    {
+      q: "The 'Report of Income' is another name for which financial statement?",
+      opts: ["Balance sheet","Statement of changes in equity","Cash flow statement","Income statement"],
+      ans: 3, diff: "basic",
+      expl: "The Report of Income is the formal name for a bank's income statement, showing revenues and expenses over a specific period."
+    },
+    {
+      q: "The four major asset types on a bank's balance sheet are:",
+      opts: ["Cash, equity capital, deposits, and loans","Cash, investment securities, loans/leases, and miscellaneous assets","Equity, retained earnings, bonds, and cash","Deposits, equity, borrowings, and securities"],
+      ans: 1, diff: "basic",
+      expl: "The four major asset types are: (C) cash and deposits at other institutions, (S) investment securities, (L) loans and lease financings, and (MA) miscellaneous assets."
+    },
+    {
+      q: "What is the primary purpose of cash assets (C) on a bank's balance sheet?",
+      opts: ["To generate income through interest","To meet the financial firm's need for liquidity","To satisfy long-term investment goals","To fund the bank's fixed assets"],
+      ans: 1, diff: "basic",
+      expl: "Cash assets are primarily held to meet the financial firm's need for immediate liquidity, ensuring the bank can meet withdrawal demands and other short-term obligations."
+    },
+    {
+      q: "Investment securities on the balance sheet serve which two purposes?",
+      opts: ["Collateral for loans and income generation","Backup source of liquidity (secondary reserves) and income generation","Meeting regulatory requirements only and trading gains","Window dressing and collateral only"],
+      ans: 1, diff: "intermediate",
+      expl: "Investment securities serve as a backup source of liquidity (secondary reserves) and include investments that provide a source of income for the bank."
+    },
+    {
+      q: "What does the balance sheet identity state?",
+      opts: ["Assets = Liabilities","Assets = Liabilities + Equity Capital","Revenue = Expenses + Profit","Deposits = Loans + Securities"],
+      ans: 1, diff: "basic",
+      expl: "The balance sheet identity states that Assets = Liabilities + Equity Capital. Liabilities and equity represent accumulated sources of funds, and assets represent accumulated uses of funds."
+    },
+    {
+      q: "'Allowance for Possible Loan Losses' on a bank's balance sheet is best described as:",
+      opts: ["An asset representing expected recoveries","A contra-asset account representing reserves set aside for potential future loan losses","A liability representing depositor claims","An expense account for current-period loan write-offs"],
+      ans: 1, diff: "intermediate",
+      expl: "The Allowance for Possible Loan Losses (ALL) is a contra-asset account — it reduces the gross loans figure to arrive at net loans, representing management's estimate of potential future loan losses."
+    },
+    {
+      q: "Which type of bank asset is described as 'made principally to supply income'?",
+      opts: ["Cash assets","Investment securities","Loans","Miscellaneous assets"],
+      ans: 2, diff: "basic",
+      expl: "Loans (L) are the major earning asset of banks, made principally to supply income through interest and fee revenues."
+    },
+    {
+      q: "What are 'primary reserves' in banking?",
+      opts: ["Long-term government bonds","Cash assets including vault cash, deposits at other banks, and reserve accounts at the Federal Reserve","Loan loss provisions","Short-term securities purchased in the open market"],
+      ans: 1, diff: "basic",
+      expl: "Primary reserves (sometimes called cash assets) include vault cash, deposits with other banks (correspondent deposits), cash items in process of collection, and reserve accounts with the Federal Reserve."
+    },
+    {
+      q: "'Secondary reserves' in banking refer to:",
+      opts: ["Equity capital set aside for emergencies","Short-term, highly liquid investment securities such as government securities and money market instruments","Deposits at foreign banks","Long-term corporate bonds"],
+      ans: 1, diff: "intermediate",
+      expl: "Secondary reserves include short-term, liquid investment securities such as government securities, money market securities, interest-bearing time deposits, and commercial paper — a backup liquidity source."
+    },
+    {
+      q: "Which of the following is NOT a type of bank loan listed in the material?",
+      opts: ["Commercial and industrial loans","Consumer loans","Real estate loans","Interbank overnight loans only"],
+      ans: 3, diff: "intermediate",
+      expl: "The material lists commercial/industrial, consumer, real estate, financial institution, foreign, agricultural, security loans, and leases as types. 'Interbank overnight loans' as a standalone category is not listed."
+    },
+    {
+      q: "What is the formula for calculating 'Ending Allowance for Loan Losses'?",
+      opts: ["Beginning ALL – Provision + Charge-offs","Beginning ALL + Provision for Loan Loss – Charge-offs + Recoveries","Beginning ALL – Charge-offs only","Net Loans – Gross Loans"],
+      ans: 1, diff: "intermediate",
+      expl: "Ending ALL = Beginning ALL + This Year's Provision for Loan Loss – Actual Charge-offs + Recoveries from Previous Charge-offs."
+    },
+    {
+      q: "What does OREO stand for in banking?",
+      opts: ["Overseas Real Estate Operations","Other Real Estate Owned — typically property acquired through loan foreclosures","Operational Risk and Equity Offset","Off-balance-sheet Real Estate Obligations"],
+      ans: 1, diff: "intermediate",
+      expl: "OREO stands for Other Real Estate Owned, which represents property the bank has acquired through loan foreclosure or deed in lieu of foreclosure."
+    },
+    {
+      q: "Which of the following is a nondeposit borrowing (NDB) instrument used by banks?",
+      opts: ["Savings accounts","Money Market Deposit Accounts","Federal Funds Purchased and Repurchase Agreements","Common stock"],
+      ans: 2, diff: "intermediate",
+      expl: "Nondeposit borrowings include Federal Funds Purchased, Securities Sold Under Agreement to Repurchase (Repurchase Agreements), Eurocurrency Borrowings, and Subordinated Debt."
+    },
+    {
+      q: "What is the primary purpose of 'equity capital' (EC) on a bank's balance sheet?",
+      opts: ["To fund short-term liquidity needs","To supply the long-term, relatively stable base of financial support and cover extraordinary losses","To match short-term deposit liabilities","To fund interbank lending only"],
+      ans: 1, diff: "basic",
+      expl: "Equity capital provides the long-term, stable financial foundation upon which the bank relies to grow and to absorb any extraordinary losses it may incur."
+    },
+    {
+      q: "'Fed Funds Sold' on the asset side of a bank's balance sheet represents:",
+      opts: ["Loans made to customers secured by government bonds","Temporary loans (usually overnight) made to other depository institutions or securities dealers using the bank's reserve balances","Sales of U.S. Treasury bonds on the open market","Long-term investments in other financial institutions"],
+      ans: 1, diff: "intermediate",
+      expl: "Federal Funds Sold are short-term (typically overnight) loans made to other depository institutions, securities dealers, or corporations, using the lending bank's reserve balances at the Federal Reserve."
+    },
+    {
+      q: "A 'reverse repurchase agreement' (reverse RP) on a bank's balance sheet means the bank:",
+      opts: ["Sells securities with an agreement to buy them back","Acquires temporary title to securities owned by a borrower, holding them as collateral until the loan is repaid","Purchases long-term bonds to hold to maturity","Converts loans into securities for sale"],
+      ans: 1, diff: "advanced",
+      expl: "In a reverse repurchase agreement, the bank acquires temporary title to securities owned by the borrower and holds those securities as collateral until the short-term loan is paid off."
+    },
+    {
+      q: "Trading Account Assets on a bank's balance sheet are valued at:",
+      opts: ["Historical (original) cost","Market value (FASB 115)","Amortized cost only","Face value of the securities"],
+      ans: 1, diff: "intermediate",
+      expl: "Trading account assets are securities purchased to generate short-term profits from price movements; per FASB 115, they are valued at current market value (mark-to-market)."
+    },
+    {
+      q: "Which liability is typically the MAIN source of funding for banks?",
+      opts: ["Subordinated debt","Equity capital","Deposits","Federal Funds Purchased"],
+      ans: 2, diff: "basic",
+      expl: "Deposits are typically the main source of funding for commercial banks, representing the funds entrusted to the bank by its customers."
+    },
+    {
+      q: "What are 'NOW Accounts'?",
+      opts: ["Non-interest-bearing demand deposits","Negotiable Order of Withdrawal accounts — interest-bearing checking accounts","Non-operating working capital accounts","Night Overnight Withdrawal accounts"],
+      ans: 1, diff: "intermediate",
+      expl: "NOW (Negotiable Order of Withdrawal) accounts are interest-bearing transaction accounts that function similarly to checking accounts, allowing account holders to earn interest while retaining check-writing privileges."
+    },
+    {
+      q: "Which component of equity capital represents profits retained in the firm rather than paid out as dividends?",
+      opts: ["Preferred Stock","Capital Surplus","Retained Earnings (Undivided Profits)","Treasury Stock"],
+      ans: 2, diff: "basic",
+      expl: "Retained Earnings (also called Undivided Profits in banking) represent the cumulative profits that have been kept in the business rather than distributed to shareholders as dividends."
+    },
+    {
+      q: "What is the main criticism of 'book-value accounting' for banks?",
+      opts: ["It overstates income","It records assets at original historical cost, which may not reflect their current market value, potentially misleading users","It is too complex for auditors","It includes off-balance-sheet items on the balance sheet"],
+      ans: 1, diff: "intermediate",
+      expl: "Book-value (historical cost) accounting records assets at their original purchase price, not current market value, which can significantly distort the true economic value of a bank's balance sheet."
+    },
+    {
+      q: "What is 'window dressing' in the context of bank financial statements?",
+      opts: ["Decorating bank branch windows with promotional materials","The practice of temporarily improving a bank's financial ratios or balance sheet appearance near reporting dates","The process of converting loans into securities","Hiring external auditors to certify financial statements"],
+      ans: 1, diff: "advanced",
+      expl: "Window dressing involves temporary adjustments made to improve the appearance of financial statements near reporting dates (e.g., selling poor-performing assets just before period end), which can mislead analysts."
+    },
+    {
+      q: "The four main sections of a bank's income statement are:",
+      opts: ["Cash, securities, loans, and deposits","Interest income, interest expenses, noninterest income, and noninterest expenses","Revenue, cost of goods, operating expenses, and taxes","Assets, liabilities, equity, and off-balance items"],
+      ans: 1, diff: "basic",
+      expl: "A bank's income statement is organized into four main sections: (1) interest income, (2) interest expenses, (3) noninterest income, and (4) noninterest expenses."
+    },
+    {
+      q: "Net Interest Income is calculated as:",
+      opts: ["Total Revenue – Total Expenses","Interest Income – Interest Expenses","Noninterest Income – Noninterest Expenses","Total Assets × Interest Rate"],
+      ans: 1, diff: "basic",
+      expl: "Net Interest Income = Interest Income − Interest Expenses. It represents the profit from the bank's core lending and deposit-taking activities."
+    },
+    {
+      q: "Which of the following is a source of 'noninterest income' for a bank?",
+      opts: ["Interest and fees on loans","Interest earned on government securities","Service charges on deposit accounts and fees from fiduciary activities","Interest paid on time deposits"],
+      ans: 2, diff: "basic",
+      expl: "Noninterest income includes fees earned from fiduciary activities, service charges on deposit accounts, trading account gains and fees, and other service fees not related to interest."
+    },
+    {
+      q: "An 'off-balance-sheet item' such as a standby letter of credit exposes a bank to which type of risk?",
+      opts: ["Liquidity risk only","Counterparty risk — the risk that the party on the other side of the commitment will default","Reputational risk only","Market interest rate risk only"],
+      ans: 1, diff: "advanced",
+      expl: "Off-balance-sheet items expose the bank to counterparty risk — the risk that the other party to the commitment (e.g., a standby credit agreement or derivative contract) will fail to fulfill its obligation."
+    },
+    {
+      q: "The Sarbanes-Oxley Accounting Standards Act primarily affects banks by:",
+      opts: ["Eliminating the need for external audits","Strengthening auditing requirements, internal controls, and accountability for financial reporting accuracy","Reducing required capital reserves","Allowing banks to use any accounting method they choose"],
+      ans: 1, diff: "intermediate",
+      expl: "Sarbanes-Oxley strengthened requirements for auditing, internal controls, and management accountability for financial reporting accuracy, directly affecting how banks report their financial statements."
+    },
+    {
+      q: "What does FASB 115 require regarding the valuation of trading account assets?",
+      opts: ["They must be recorded at original cost","They must be valued at current market value (mark-to-market)","They can be valued at either cost or market, whichever is higher","They are excluded from the balance sheet"],
+      ans: 1, diff: "intermediate",
+      expl: "FASB 115 (Accounting for Certain Investments in Debt and Equity Securities) requires that trading securities be reported at fair market value on the balance sheet."
+    },
+    {
+      q: "Money Market Deposit Accounts (MMDAs) are classified as:",
+      opts: ["Equity capital","Nondeposit borrowings","A type of deposit liability offering market-level interest rates","Fixed assets"],
+      ans: 2, diff: "intermediate",
+      expl: "MMDAs are interest-bearing deposit accounts that offer rates competitive with money market funds, classified as deposit liabilities on the bank's balance sheet."
+    },
+    {
+      q: "Which of the following statements about noninterest expenses is correct?",
+      opts: ["They include only interest paid on deposits","They include wages, salaries, employee benefits, premises costs, and other operating expenses","They are always smaller than noninterest income","They include loan loss provisions only"],
+      ans: 1, diff: "basic",
+      expl: "Noninterest expenses include wages, salaries, and employee benefits; premises and equipment expenses; and other operating expenses such as technology and marketing costs."
+    },
+    {
+      q: "The 'net noninterest margin' is typically:",
+      opts: ["Always positive for well-managed banks","Negative for most banks, as noninterest expenses generally exceed noninterest income","Equal to the net interest margin","The primary driver of bank profitability"],
+      ans: 1, diff: "intermediate",
+      expl: "The net noninterest margin is typically negative for most banks because noninterest expenses (salaries, premises, operations) generally exceed noninterest income (fees, service charges), creating a 'burden' that must be covered by net interest income."
+    },
+    {
+      q: "The balance sheet of a thrift institution (savings association) most closely resembles a commercial bank's balance sheet in that:",
+      opts: ["It is dominated by insurance premiums receivable","It is dominated by loans (especially mortgages), deposits from customers, and money market borrowings","It holds primarily corporate equity securities","It has no deposit liabilities"],
+      ans: 1, diff: "intermediate",
+      expl: "Thrift institutions' balance sheets are dominated by loans (especially mortgage loans), customer deposits, and money market borrowings — closely resembling commercial bank balance sheets."
+    },
+    {
+      q: "What is 'goodwill' as listed under miscellaneous assets on a bank's balance sheet?",
+      opts: ["Cash reserves held in excess of requirements","An intangible asset arising from the acquisition of another firm at a price above its net book value","Interest accrued but not yet received","The market value of investment securities"],
+      ans: 1, diff: "intermediate",
+      expl: "Goodwill is an intangible asset that arises when a bank acquires another institution at a price above the fair market value of its net identifiable assets, representing the premium paid for factors like brand, customer relationships, and market position."
+    },
+    {
+      q: "'Held-to-maturity' securities versus 'available-for-sale' securities differ primarily in that:",
+      opts: ["Held-to-maturity securities are marked to market; available-for-sale are at cost","Held-to-maturity are intended to be held until maturity and carried at amortized cost; available-for-sale are marked to market with unrealized gains/losses recorded in equity","Available-for-sale can only be government bonds","Held-to-maturity generate no interest income"],
+      ans: 1, diff: "advanced",
+      expl: "Securities management intent determines accounting treatment: held-to-maturity securities are carried at amortized cost (no mark-to-market), while available-for-sale securities are marked to market with unrealized gains/losses recorded in other comprehensive income in equity."
+    },
+    {
+      q: "Nonperforming loans (NPLs) are defined in the material as income-generating assets that are:",
+      opts: ["Generating above-market returns","Past due for 90 days or more","Secured by real estate collateral","In process of restructuring only"],
+      ans: 1, diff: "basic",
+      expl: "Nonperforming assets are income-generating assets (including loans) that are past due for 90 days or more — meaning borrowers have missed payments for at least three months."
+    },
+    {
+      q: "The concept of 'unearned discount income' in bank loan accounting refers to:",
+      opts: ["Interest income that has been earned but not yet collected","Interest received in advance that has not yet been earned over the loan's life","Fees waived to attract customers","Dividend income from equity investments"],
+      ans: 1, diff: "advanced",
+      expl: "Unearned discount income represents interest that has been collected upfront (discounted from the loan proceeds) but has not yet been earned as the loan term progresses — it is a deduction from gross loans on the balance sheet."
+    },
+    {
+      q: "Financial statements can be viewed as a 'road map' because they:",
+      opts: ["Show the geographic distribution of a bank's branches","Tell us where a financial firm has been in the past, where it is now, and possibly where it is headed in the future","Provide instructions for new banking products","Map customer data to loan performance"],
+      ans: 1, diff: "basic",
+      expl: "The material describes financial statements as a 'road map' because they tell us where a financial firm has been in the past, where it is now, and possibly where it is headed in the future."
+    },
+    {
+      q: "Which of the following represents an off-balance-sheet derivative instrument?",
+      opts: ["A conventional fixed-rate mortgage","A savings deposit","An interest rate swap contract","A government bond held to maturity"],
+      ans: 2, diff: "intermediate",
+      expl: "Interest rate swaps are derivative contracts — classified as off-balance-sheet items along with futures contracts and options — that expose the bank to counterparty risk."
+    },
+    {
+      q: "A bank's 'Report of Income' shows net earnings after all costs are deducted, some of which will be:",
+      opts: ["Converted directly into new loans","Reinvested in the firm for future growth or distributed to stockholders as dividends","Used solely for regulatory capital requirements","Returned to depositors as bonus interest"],
+      ans: 1, diff: "basic",
+      expl: "Net earnings are either reinvested in the financial firm for future growth (retained earnings) or paid out to stockholders as dividends."
+    },
+    {
+      q: "'Capital surplus' as a component of equity capital represents:",
+      opts: ["Profits not yet distributed as dividends","Amounts paid by shareholders for shares above their par value","Reserves set aside for future loan losses","Treasury stock repurchased from the market"],
+      ans: 1, diff: "intermediate",
+      expl: "Capital surplus (also called additional paid-in capital) represents the amount shareholders paid for new shares above the stated par value — the excess of issue price over par value."
+    },
+    {
+      q: "The Report of Condition shows the composition of funds at:",
+      opts: ["Any given point in time (a snapshot)","Over a full fiscal year","Over a calendar quarter only","The inception date of the bank only"],
+      ans: 0, diff: "basic",
+      expl: "The Report of Condition (balance sheet) shows the amount and composition of funds at a specific point in time — it is a snapshot of the bank's financial position on a given date."
+    },
+    {
+      q: "Subordinated debt as a nondeposit borrowing is described as 'subordinated' because:",
+      opts: ["It carries a lower interest rate than senior debt","In case of bank liquidation, it is repaid after senior creditors and depositors but before equity holders","It is issued only to government entities","It cannot be traded in secondary markets"],
+      ans: 1, diff: "advanced",
+      expl: "Subordinated debt is repaid after senior creditors and depositors in the event of bank failure or liquidation, but before equity holders. Its junior status makes it a higher-risk instrument that earns a higher interest rate."
+    },
+    {
+      q: "According to the material, off-balance-sheet items have grown so rapidly that for the banking industry as a whole:",
+      opts: ["They now equal approximately half of total bank assets","They now exceed total bank assets many times over","They have stabilized at about 10% of total assets","They have declined due to regulatory restrictions"],
+      ans: 1, diff: "intermediate",
+      expl: "The material states that OBS items have grown so rapidly that, for the banking industry as a whole, they exceed total bank assets many times over, representing a significant source of hidden risk."
+    },
+    {
+      q: "What are 'Eurocurrency borrowings' in the context of nondeposit liabilities?",
+      opts: ["Borrowings denominated in Euros from European banks only","Short-term borrowings in currencies held in banks outside the country of origin (e.g., US dollars deposited in London banks)","Long-term bonds issued in European capital markets","Foreign currency reserves held by the central bank"],
+      ans: 1, diff: "advanced",
+      expl: "Eurocurrency borrowings are funds borrowed in currencies deposited outside their home country (e.g., US dollars held in London — 'Eurodollars'). Banks use these to supplement domestic funding, especially for international operations."
+    },
+    {
+      q: "Interest income sources for a bank include which of the following?",
+      opts: ["Wages and salaries paid to employees","Service charges on deposit accounts","Interest and fees on loans, taxable securities revenue, and other interest income","Premises and equipment expenses"],
+      ans: 2, diff: "basic",
+      expl: "Interest income includes interest and fees on loans, taxable securities revenue, tax-exempt securities revenue, and other interest income from money market instruments and fed funds sold."
+    },
+    {
+      q: "Which of the following best describes 'specific reserves' vs 'general reserves' for loan losses?",
+      opts: ["Specific reserves cover all loans; general reserves cover only large loans","Specific reserves are set aside for a particular identified loan at risk; general reserves cover the remaining allowance for unspecified potential losses","General reserves are larger than specific reserves by law","Specific reserves are determined by market conditions; general reserves by auditors"],
+      ans: 1, diff: "advanced",
+      expl: "Specific reserves are designated for a particular loan identified as at risk of default, while general reserves represent the remaining allowance for loan losses not yet tied to specific loans, influenced by management judgment, taxes, and regulation."
+    },
+    {
+      q: "The audit committee, in the context of bank financial statements, is responsible for:",
+      opts: ["Setting interest rates for the bank","Overseeing the external auditing process and ensuring the integrity and accuracy of the bank's financial reporting","Managing the bank's loan portfolio","Approving new product launches"],
+      ans: 1, diff: "intermediate",
+      expl: "The audit committee oversees the external auditing process and is responsible for ensuring the integrity and accuracy of the bank's financial reporting, a key governance mechanism especially post-Sarbanes-Oxley."
+    },
+    {
+      q: "Which of the following is an example of a 'miscellaneous asset' on a bank's balance sheet?",
+      opts: ["Loans to retail customers","Federal Funds Sold","Bank Premises (buildings and equipment)","Savings deposits"],
+      ans: 2, diff: "basic",
+      expl: "Miscellaneous assets include Bank Premises and Fixed Assets, Other Real Estate Owned (OREO), and Goodwill and Other Intangibles — items not fitting into the main cash, securities, or loans categories."
+    },
+    {
+      q: "According to FASB 115, 'available-for-sale' securities are classified as investments where the bank:",
+      opts: ["Plans to hold them to maturity","May sell before maturity; they are marked to market with unrealized gains/losses in other comprehensive income","Actively trades them for daily profit","Has no intention of selling them"],
+      ans: 1, diff: "advanced",
+      expl: "Available-for-sale securities are those the bank may sell before maturity. Unlike held-to-maturity (amortized cost), they are marked to fair value with unrealized gains/losses recorded in other comprehensive income within equity."
+    },
+    {
+      q: "What do 'nonperforming assets' as a percentage of equity capital indicate?",
+      opts: ["The bank's total profitability","The proportion of potentially uncollectible assets relative to the bank's capital buffer — a key credit quality indicator","The market value of the bank's investment portfolio","The bank's dividend payout ratio"],
+      ans: 1, diff: "intermediate",
+      expl: "Nonperforming assets / Equity Capital measures the proportion of problematic assets relative to the bank's capital cushion, indicating how much the capital buffer would be eroded if those assets were written off."
+    },
+    {
+      q: "A 'provision for loan losses' on the income statement represents:",
+      opts: ["The actual write-off of uncollectible loans in the current period","A current-period expense that builds up the Allowance for Loan Losses to cover expected future loan losses","Interest income forgone on non-performing loans","A reserve held at the Federal Reserve"],
+      ans: 1, diff: "intermediate",
+      expl: "The provision for loan losses is a current-period income statement charge that increases the Allowance for Loan Losses (balance sheet), building reserves against expected future loan losses before they are formally written off."
+    }
+  ]
+},
+
+// ──────────────── TOPIC 3 ────────────────
+{
+  title: "Topic 3: Measuring and Evaluating Bank Performance",
+  questions: [
+    {
+      q: "Return on Assets (ROA) is defined as:",
+      opts: ["Net Income / Total Equity","Net Income / Total Assets","Net Interest Income / Total Loans","Operating Revenue / Total Deposits"],
+      ans: 1, diff: "basic",
+      expl: "ROA = Net Income / Total Assets. It measures how efficiently management converts assets into net earnings — a primary indicator of managerial efficiency."
+    },
+    {
+      q: "Return on Equity (ROE) is defined as:",
+      opts: ["Net Income / Total Assets","Net Income / Total Deposits","Net Income / Total Equity Capital","Operating Income / Total Revenue"],
+      ans: 2, diff: "basic",
+      expl: "ROE = Net Income / Total Equity Capital. It measures the rate of return flowing to shareholders, approximating the net benefit stockholders receive from their capital investment."
+    },
+    {
+      q: "What does ROA primarily indicate about a bank?",
+      opts: ["The size of the bank's loan portfolio","The rate of return to shareholders","How capable management has been in converting assets into net earnings — managerial efficiency","The bank's liquidity position"],
+      ans: 2, diff: "basic",
+      expl: "ROA is primarily an indicator of managerial efficiency — it shows how effectively management has deployed assets to generate earnings."
+    },
+    {
+      q: "The 'Net Interest Margin' (NIM) is calculated as:",
+      opts: ["Total Interest Income / Total Assets","(Interest Income – Interest Expenses) / Total Earning Assets","Net Income / Equity Capital","Total Loans / Total Deposits"],
+      ans: 1, diff: "basic",
+      expl: "NIM = (Interest Income – Interest Expenses) / Total Earning Assets. It measures the spread management achieves between interest revenues and interest costs."
+    },
+    {
+      q: "The 'Earnings Spread' measures:",
+      opts: ["The difference between ROA and ROE","The difference between the average yield on assets and the average cost of liabilities, reflecting the effectiveness of the intermediation function","Net Income as a percentage of total deposits","The dividend payout ratio"],
+      ans: 1, diff: "intermediate",
+      expl: "The earnings spread = average yield on earning assets – average cost of funds. It measures the effectiveness of intermediation and reflects competitive intensity; greater competition tends to squeeze the spread."
+    },
+    {
+      q: "The 'Equity Multiplier' (EM) is calculated as:",
+      opts: ["Total Equity / Total Assets","Total Assets / Total Equity Capital","Net Income / Total Equity","Total Deposits / Total Equity"],
+      ans: 1, diff: "basic",
+      expl: "Equity Multiplier = Total Assets / Total Equity Capital. It measures financial leverage — how many dollars of assets are supported by each dollar of equity."
+    },
+    {
+      q: "The DuPont decomposition of ROE expressed in the material shows ROE equals:",
+      opts: ["NIM × Asset Quality × Capital Ratio","Net Profit Margin × Asset Utilization × Equity Multiplier (Profit Margin × Asset Utilization × EM)","ROA only","Net Interest Income / Total Assets"],
+      ans: 1, diff: "intermediate",
+      expl: "The DuPont decomposition: ROE = (Net Income/Revenue) × (Revenue/Total Assets) × (Total Assets/Equity) = Net Profit Margin × Asset Utilization Ratio × Equity Multiplier."
+    },
+    {
+      q: "What does the 'Asset Utilization Ratio' measure in bank performance?",
+      opts: ["The proportion of assets invested in loans","Total Operating Revenue / Total Assets — how much revenue is generated per dollar of assets","The ratio of securities to total assets","The cost of acquiring funds"],
+      ans: 1, diff: "intermediate",
+      expl: "Asset Utilization = Total Operating Revenue / Total Assets. It measures how effectively assets are deployed to generate revenue."
+    },
+    {
+      q: "In the context of bank performance, 'credit risk' refers to:",
+      opts: ["The risk of interest rate changes affecting the bank's net interest margin","The probability that some of the bank's assets (especially loans) will decline in value and perhaps become worthless","The risk of a run on deposits","The risk of computer system failures"],
+      ans: 1, diff: "basic",
+      expl: "Credit risk is the probability that some of a financial institution's assets (especially loans) will decline in value and perhaps become worthless due to borrower default."
+    },
+    {
+      q: "Which ratio is used as an indicator of credit risk?",
+      opts: ["Return on Assets","Nonperforming Assets / Total Loans and Leases","Net Interest Margin","Operating Efficiency Ratio"],
+      ans: 1, diff: "basic",
+      expl: "Nonperforming Assets / Total Loans and Leases is a key credit risk indicator, showing what proportion of the loan portfolio is not performing — a higher ratio signals greater credit risk."
+    },
+    {
+      q: "'Liquidity risk' in banking is defined as:",
+      opts: ["The risk that interest rates will change unfavorably","The danger of not having sufficient cash and borrowing capacity to meet customer withdrawals, loan demand, and other cash needs","The risk of losing value on trading securities","The risk of fraud by employees"],
+      ans: 1, diff: "basic",
+      expl: "Liquidity risk is the danger of not having sufficient cash and borrowing capacity to meet customer withdrawals, loan demand, and other cash needs when they arise."
+    },
+    {
+      q: "Which of the following is a liquidity risk exposure ratio?",
+      opts: ["Net charge-offs / Total Loans","Purchased Funds / Total Assets","ROE","Equity Capital / Risk Assets"],
+      ans: 1, diff: "intermediate",
+      expl: "Purchased Funds / Total Assets measures reliance on volatile purchased funds (Eurodollars, fed funds, large CDs, commercial paper), which are sensitive to market conditions and can dry up quickly, indicating liquidity risk."
+    },
+    {
+      q: "'Market risk' in banking consists of:",
+      opts: ["Credit risk and operational risk","Price risk and interest rate risk","Liquidity risk and capital risk","Strategic risk and reputational risk"],
+      ans: 1, diff: "intermediate",
+      expl: "Market risk consists of both price risk (sensitivity of bond portfolios and equity values to market price movements) and interest rate risk (impact of changing rates on net interest margin)."
+    },
+    {
+      q: "Interest rate risk is best measured by which ratio?",
+      opts: ["Nonperforming Assets / Total Assets","Interest-Sensitive Assets / Interest-Sensitive Liabilities","Net Income / Total Equity","Purchased Funds / Total Liabilities"],
+      ans: 1, diff: "intermediate",
+      expl: "The Interest-Sensitive Assets / Interest-Sensitive Liabilities ratio (GAP ratio) is the key measure of interest rate risk, indicating whether the bank's earnings will be hurt by rising or falling rates."
+    },
+    {
+      q: "When Interest-Sensitive Assets (ISA) exceed Interest-Sensitive Liabilities (ISL), the bank is:",
+      opts: ["Protected from all interest rate movements","Vulnerable to losses from falling interest rates — a positive GAP position","Perfectly hedged against interest rate changes","Exposed only to credit risk"],
+      ans: 1, diff: "advanced",
+      expl: "When ISA > ISL (positive GAP), the bank's interest income is more sensitive to rate changes than its interest costs. If rates fall, interest income drops more than interest costs, squeezing net interest margin."
+    },
+    {
+      q: "'Operational risk' refers to:",
+      opts: ["Risk from changes in market interest rates","Uncertainty regarding earnings due to failures in computer systems, errors, misconduct by employees, floods, strikes, and similar events","Risk from changes in exchange rates","Risk from changes in government regulations"],
+      ans: 1, diff: "basic",
+      expl: "Operational risk refers to uncertainty regarding a financial firm's earnings due to failures in computer systems, errors, misconduct by employees, floods, lightning, strikes, and other similar disruptive events."
+    },
+    {
+      q: "'Reputation risk' in banking is defined as:",
+      opts: ["The risk of losing money on loan defaults","The uncertainty associated with public opinion about the bank","The risk of changes in accounting standards","The risk of cyber attacks"],
+      ans: 1, diff: "basic",
+      expl: "Reputation risk is the uncertainty associated with public opinion — negative publicity (whether accurate or not) can damage a bank's reputation, affecting its ability to attract and retain customers."
+    },
+    {
+      q: "'Strategic risk' in banking refers to:",
+      opts: ["The risk of interest rate fluctuations","Variations in earnings due to adverse business decisions, improper implementation of decisions, or lack of responsiveness to industry changes","The risk of employee fraud","Foreign currency fluctuation risk"],
+      ans: 1, diff: "basic",
+      expl: "Strategic risk arises from adverse business decisions, improper implementation of strategic decisions, or failure to adapt to significant industry changes and competitive dynamics."
+    },
+    {
+      q: "'Capital risk' is significant because:",
+      opts: ["It only affects small banks","The cumulative impact of all other risks (credit, liquidity, market, operational, etc.) can affect a financial firm's long-run survival through capital depletion","It has no relationship to other types of risk","It exclusively affects offshore banking operations"],
+      ans: 1, diff: "intermediate",
+      expl: "Capital risk represents the ultimate consequence of all other risks — if losses from credit, market, operational, or other risks are large enough, they can deplete capital and threaten the bank's long-run survival."
+    },
+    {
+      q: "Capital risk can be measured by which of the following ratios?",
+      opts: ["Net Income / Total Revenue","Equity Capital / Total Assets","Interest Income / Total Loans","Provision for Loan Losses / Net Loans"],
+      ans: 1, diff: "intermediate",
+      expl: "Equity Capital / Total Assets is one of the key capital risk measures — it indicates what proportion of assets is funded by equity (the loss-absorbing buffer), signaling the bank's ability to withstand losses."
+    },
+    {
+      q: "What does the 'operating efficiency ratio' measure?",
+      opts: ["Revenue generated per employee","Operating expenses as a proportion of operating revenue — lower is generally better, indicating better cost control","Return on assets","The quality of the loan portfolio"],
+      ans: 1, diff: "intermediate",
+      expl: "The operating efficiency ratio = Noninterest Expenses / (Net Interest Income + Noninterest Income). A lower ratio indicates better cost control; a rising ratio may signal an expense control problem or revenue decline."
+    },
+    {
+      q: "A rise in the 'employee productivity ratio' suggests:",
+      opts: ["The bank is overpaying its employees","Management and staff are generating more operating revenue and/or reducing operating expenses per employee","The bank is reducing headcount aggressively","Loan quality is deteriorating"],
+      ans: 1, diff: "intermediate",
+      expl: "A rising employee productivity ratio indicates that management and staff are generating more operating revenue per employee and/or reducing operating expenses per employee — squeezing out more output with the same employee base."
+    },
+    {
+      q: "The minimum acceptable rate of return for a financial firm is sometimes referred to as:",
+      opts: ["The profit margin","The cost of capital, comprising the risk-free rate plus an equity risk premium","The earnings per share","The dividend yield"],
+      ans: 1, diff: "intermediate",
+      expl: "The minimum acceptable rate of return (r) is the cost of capital, with two main components: the risk-free rate of interest and the equity risk premium reflecting perceived business risk."
+    },
+    {
+      q: "In the constant-growth dividend model (Gordon Growth Model), the stock price formula is P₀ = D₁/(r - g). What does 'g' represent?",
+      opts: ["Government tax rate on dividends","The expected constant growth rate at which all future stock dividends will grow each year","The risk-free rate of interest","The current dividend yield"],
+      ans: 1, diff: "intermediate",
+      expl: "In the constant-growth dividend model, 'g' represents the expected constant rate at which future dividends will grow each year, reflecting expectations about the firm's long-term earnings growth."
+    },
+    {
+      q: "A bank's stock value tends to rise when:",
+      opts: ["Market interest rates increase and perceived risk rises","Expected dividend increases are combined with declining risk as perceived by investors","The bank reduces its equity capital","Interest rates rise sharply"],
+      ans: 1, diff: "intermediate",
+      expl: "Stock value rises when: (1) expected future dividends increase, (2) perceived risk falls, (3) market interest rates decrease, or (4) a combination of rising dividends and declining perceived risk."
+    },
+    {
+      q: "Which of the following statements about the 'net noninterest margin' is correct?",
+      opts: ["It is always positive for well-managed banks","It measures the efficiency of non-lending activities; it is typically negative because noninterest expenses exceed noninterest income","It is the primary profitability driver for all banks","It equals net interest income divided by total assets"],
+      ans: 1, diff: "intermediate",
+      expl: "The net noninterest margin (noninterest income – noninterest expenses / total assets) is typically negative for most banks, as noninterest expenses usually exceed fee income, creating a 'burden' that reduces overall profitability."
+    },
+    {
+      q: "Which performance measure would best reflect the market's evaluation of a bank's overall performance?",
+      opts: ["Return on Assets (ROA)","The bank's stock price or market value of equity","Net Interest Margin","Allowance for Loan Losses"],
+      ans: 1, diff: "basic",
+      expl: "The material states that a stock's price is, in theory, the best indicator of a financial firm's performance because it reflects the market's aggregate evaluation of all aspects of the firm's past and expected future performance."
+    },
+    {
+      q: "Why is comparing financial firm performance across different size groups problematic?",
+      opts: ["All banks face the same regulations regardless of size","Performance ratios are highly sensitive to the size group in which a financial institution finds itself — larger banks often have different risk/return profiles than smaller ones","Size has no impact on financial ratios","All banks generate identical net interest margins"],
+      ans: 1, diff: "intermediate",
+      expl: "Most performance ratios are highly sensitive to the size group — larger banks may have more diversification, different business mixes, and face different competitive dynamics than smaller community banks, making direct comparisons misleading."
+    },
+    {
+      q: "What is 'foreign exchange risk' in banking?",
+      opts: ["Risk from domestic interest rate changes","Risk that fluctuating currency prices will adversely affect the bank's earnings and value from foreign currency-denominated assets and liabilities","Risk from sovereign debt defaults only","Risk of changes in commodity prices"],
+      ans: 1, diff: "basic",
+      expl: "Foreign exchange risk (currency risk) arises from fluctuating currency exchange rates, which can affect the value of a bank's foreign currency-denominated assets, liabilities, revenues, and expenses."
+    },
+    {
+      q: "The Uniform Bank Performance Report (UBPR) is sent quarterly to all federally supervised banks and reports:",
+      opts: ["Only the bank's income statement","Each bank's assets, liabilities, capital, revenues, and expenses","Only credit risk ratios","Only compliance information"],
+      ans: 1, diff: "intermediate",
+      expl: "The UBPR is sent quarterly to all federally supervised banks and reports each bank's assets, liabilities, capital, revenues, and expenses, enabling regulators and managers to track performance over time."
+    },
+    {
+      q: "Which of the following combinations of factors determines the rate of return earned on stockholders' investment (ROE)?",
+      opts: ["Only interest rates and loan volumes","Net profit margin × Asset utilization × Equity multiplier — as shown in the DuPont decomposition","Only cost management and revenue growth","Only loan quality and deposit growth"],
+      ans: 1, diff: "intermediate",
+      expl: "ROE is determined by the DuPont decomposition: Net Profit Margin (earnings efficiency) × Asset Utilization (revenue generation) × Equity Multiplier (financial leverage)."
+    },
+    {
+      q: "Higher financial leverage (equity multiplier) in a bank means:",
+      opts: ["The bank is very conservatively funded with mostly equity","More assets are funded by debt relative to equity, amplifying both returns and risk","The bank has a very high capital ratio","The bank faces less credit risk"],
+      ans: 1, diff: "intermediate",
+      expl: "A higher equity multiplier (more assets per dollar of equity) means more assets are funded by debt (deposits and borrowings), which amplifies both returns when assets perform well and losses when they don't."
+    },
+    {
+      q: "Which of the following best describes 'price risk' as a component of market risk?",
+      opts: ["The risk that loan customers will default","The risk that the market values of bond portfolios and stockholders' equity will decline suddenly as market prices move against the bank","The risk of regulatory fines","The risk of ATM machine failures"],
+      ans: 1, diff: "intermediate",
+      expl: "Price risk is the sensitivity of bond portfolios and stockholders' equity to market value movements — for example, rising interest rates reduce the market value of fixed-rate bonds held by the bank."
+    },
+    {
+      q: "'Legal risk' in banking creates variability in earnings resulting from:",
+      opts: ["Changes in accounting standards only","Legal actions or activities undertaken by the financial institution","Employee skill level changes","Declining market share"],
+      ans: 1, diff: "basic",
+      expl: "Legal risk creates variability in earnings resulting from legal actions taken against the financial institution (e.g., lawsuits, regulatory penalties) or from activities undertaken by the institution that may lead to legal liability."
+    },
+    {
+      q: "When comparing bank performance across institutions, the material recommends choosing:",
+      opts: ["The largest available comparison group regardless of size","Institutions of similar size serving the same market area and subject to similar regulations","Only publicly listed banks","Only the most profitable peer institutions"],
+      ans: 1, diff: "basic",
+      expl: "The best performance comparison involves choosing institutions of similar size serving the same market area, also subject to similar regulations and regulatory agencies — minimizing confounding factors."
+    },
+    {
+      q: "Net charge-offs of loans / Total Loans and Leases is a measure of:",
+      opts: ["Interest rate risk","Liquidity risk","Credit risk — showing the proportion of loans actually written off as uncollectible during the period","Capital adequacy"],
+      ans: 2, diff: "intermediate",
+      expl: "Net charge-offs / Total Loans measures the actual loan losses realized (charged off) in a period relative to the total loan portfolio, a direct measure of credit risk materialization."
+    },
+    {
+      q: "The BHCPR (Bank Holding Company Performance Report) is similar to the UBPR but applies to:",
+      opts: ["Individual commercial bank subsidiaries","Bank holding companies (BHCs)","Only foreign bank branches","Insurance subsidiaries of banks"],
+      ans: 1, diff: "intermediate",
+      expl: "The BHCPR (Bank Holding Company Performance Report) is analogous to the UBPR but provides performance data for bank holding companies (BHCs), which own bank subsidiaries."
+    },
+    {
+      q: "The 'risk-free rate of interest' component in determining a bank's cost of capital typically refers to:",
+      opts: ["The average loan rate charged to best customers","The yield on government securities (e.g., Treasury bonds), which are considered free of default risk","The average return on the bank's equity portfolio","The Federal Reserve's discount rate"],
+      ans: 1, diff: "intermediate",
+      expl: "The risk-free rate is typically proxied by government securities yields (e.g., Treasury bonds), representing the return investors can earn without taking on default risk — the base rate for all required returns."
+    },
+    {
+      q: "Careful management of financial leverage is important for achieving superior profitability because:",
+      opts: ["More leverage always increases profitability without any downside","Excessive debt funding increases risk and potential losses that could exceed equity capital, while too little leverage reduces returns","Leverage only matters for large banks","Regulators set fixed leverage ratios that cannot be managed"],
+      ans: 1, diff: "advanced",
+      expl: "Financial leverage amplifies both returns and risks — careful management is needed to balance the higher potential returns from debt financing against the increased probability of losses that could deplete equity capital."
+    },
+    {
+      q: "Which of the following best describes 'off-balance-sheet risk' in the context of bank performance evaluation?",
+      opts: ["Risk from on-balance-sheet loan defaults","Off-balance-sheet instruments (derivatives, commitments) can be highly complex and volatile in market value, creating substantial contingent liabilities not visible on the formal balance sheet","Risk from changes in accounting standards","Risk from branch network inefficiencies"],
+      ans: 1, diff: "advanced",
+      expl: "Off-balance-sheet instruments (derivatives, standby letters of credit, unused commitments) can generate large, unexpected losses that are not immediately visible in the formal balance sheet, creating substantial hidden risk."
+    },
+    {
+      q: "A bank with a very high 'Purchased Funds / Total Liabilities' ratio would be considered:",
+      opts: ["Extremely well-capitalized","Highly sensitive to market interest rate changes, as purchased funds can be withdrawn if competitors offer higher yields","Highly liquid with no funding risk","Predominantly funded by stable retail deposits"],
+      ans: 1, diff: "advanced",
+      expl: "High reliance on purchased funds (large CDs, fed funds, commercial paper) creates interest rate and liquidity sensitivity, as these funds can be quickly withdrawn if market rates rise or market conditions deteriorate."
+    },
+    {
+      q: "In evaluating bank performance, what does the 'interest-sensitive assets / interest-sensitive liabilities' ratio indicate when it is less than 1 (ISA < ISL)?",
+      opts: ["The bank benefits from falling interest rates","The bank is vulnerable to rising interest rates — its liabilities reprice upward faster than its assets, compressing net interest margin","The bank is perfectly hedged","The bank is highly liquid"],
+      ans: 1, diff: "advanced",
+      expl: "When ISA < ISL (negative GAP), interest-sensitive liabilities reprice faster than interest-sensitive assets. Rising rates increase funding costs faster than asset yields, compressing the net interest margin."
+    },
+    {
+      q: "According to the material, ROA can be decomposed into its component parts, showing that ROA equals:",
+      opts: ["Net Interest Margin + Net Noninterest Margin – Provision for Loan Losses – Taxes (as a proportion of assets)","Net Income only","Revenue – Expenses","ROE / Equity Multiplier only"],
+      ans: 0, diff: "advanced",
+      expl: "ROA can be decomposed as: Net Interest Margin + Net Noninterest Margin – Loan Loss Provision/Assets – Taxes/Assets, showing the contribution of each component of the income statement to overall asset returns."
+    },
+    {
+      q: "The 'annual provision for loan losses / total loans' ratio is useful because it indicates:",
+      opts: ["The amount of loan income earned in the period","How much the bank is setting aside for expected future loan losses relative to its loan book — a forward-looking credit risk measure","The bank's dividend policy","The bank's capital adequacy level"],
+      ans: 1, diff: "intermediate",
+      expl: "The annual provision for loan losses / total loans measures how aggressively the bank is building loan loss reserves relative to its loan portfolio — an important forward-looking indicator of credit risk and management's loss expectations."
+    },
+    {
+      q: "The 'book value of assets / estimated market value of the same assets' ratio is a measure of:",
+      opts: ["Capital risk","Liquidity risk","Market (price) risk — indicating how much the market value deviates from recorded book values","Operational risk"],
+      ans: 2, diff: "advanced",
+      expl: "The book value to market value of assets ratio is a price risk indicator — a significant divergence (especially book > market) signals that asset values are impaired relative to what is on the books, a key market risk concern."
+    },
+    {
+      q: "A financial firm's stock values are described as sensitive to which of the following factors?",
+      opts: ["Only management quality","Changes in market interest rates, currency exchange rates, and the strength or weakness of the economy","Only dividend policy changes","Only the size of the bank's loan book"],
+      ans: 1, diff: "basic",
+      expl: "The material states that stock values of financial institutions are sensitive to changes in market interest rates, currency exchange rates, and the strength or weakness of the overall economy."
+    },
+    {
+      q: "Which of the four federal banking agencies produces the UBPR in cooperation with others?",
+      opts: ["FDIC, OCC, Federal Reserve, and Office of Thrift Supervision","IRS, SEC, Treasury, and FDIC","Federal Reserve, ECB, BIS, and FDIC","OCC, SEC, CFTC, and Federal Reserve"],
+      ans: 0, diff: "intermediate",
+      expl: "The UBPR is produced through the cooperative effort of four federal banking agencies: the Federal Reserve System, the FDIC, the Office of Thrift Supervision (now OCC/CFPB), and the Office of the Comptroller of the Currency."
+    },
+    {
+      q: "'Equity capital / risk-exposed assets' as a capital risk measure indicates:",
+      opts: ["The return on risky assets","How much equity capital cushions the bank against potential losses on its riskiest assets","The bank's interest rate sensitivity","The quality of the bank's loan underwriting"],
+      ans: 1, diff: "intermediate",
+      expl: "Equity capital / Risk-exposed assets measures the equity cushion available to absorb losses on the bank's riskiest assets, a key indicator of whether the bank has adequate capital to survive adverse scenarios."
+    },
+    {
+      q: "Which statement best explains why smaller banks may face different performance challenges than larger banks?",
+      opts: ["Smaller banks always have higher NPL ratios","Smaller banks typically have less geographic and product diversification, making them more vulnerable to local economic downturns and limited in their ability to cross-subsidize weaker operations","Smaller banks are always less profitable than larger banks","Smaller banks face no regulatory requirements"],
+      ans: 1, diff: "advanced",
+      expl: "Smaller banks typically lack the geographic and product diversification of larger institutions, making them more vulnerable to local economic conditions and unable to offset poor performance in one area with profits from another."
+    }
+  ]
+}
+];
+
+// ═══════════════════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════════════════
+let currentTopic = 0;
+let currentQuestion = 0;
+let answers = []; // per topic: array of null or {selected, correct}
+let topicAnswers = [];
+
+function initAnswers() {
+  topicAnswers = topics.map(t => new Array(t.questions.length).fill(null));
+}
+
+function switchTopic(idx) {
+  currentTopic = idx;
+  currentQuestion = 0;
+  document.querySelectorAll('.topic-btn').forEach((b, i) => {
+    b.classList.toggle('active', i === idx);
+  });
+  document.getElementById('resultsPanel').classList.remove('show');
+  document.getElementById('quizArea').style.display = '';
+  document.getElementById('controls').style.display = '';
+  document.getElementById('qNavPanel').style.display = '';
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const topic = topics[currentTopic];
+  const q = topic.questions[currentQuestion];
+  const saved = topicAnswers[currentTopic][currentQuestion];
+  const total = topic.questions.length;
+  const answered = topicAnswers[currentTopic].filter(a => a !== null).length;
+
+  // Progress
+  document.getElementById('progressFraction').textContent = `${answered} / ${total}`;
+  document.getElementById('progressFill').style.width = `${(answered / total) * 100}%`;
+
+  // Header score
+  const correct = topicAnswers[currentTopic].filter(a => a !== null && a.correct).length;
+  document.getElementById('headerScore').textContent = `Score: ${correct} / ${answered}`;
+
+  // Question HTML
+  const diffClass = { basic: 'diff-basic', intermediate: 'diff-intermediate', advanced: 'diff-advanced' };
+  const diffLabel = { basic: 'Foundational', intermediate: 'Intermediate', advanced: 'Advanced' };
+  const letters = ['A', 'B', 'C', 'D'];
+
+  let optsHtml = q.opts.map((opt, i) => {
+    let cls = 'opt-btn';
+    if (saved !== null) {
+      if (i === q.ans) cls += ' correct';
+      else if (i === saved.selected && !saved.correct) cls += ' wrong';
+    }
+    return `<button class="${cls}" ${saved !== null ? 'disabled' : ''} onclick="selectAnswer(${i})">
+      <span class="opt-letter">${letters[i]}</span>
+      <span>${opt}</span>
+    </button>`;
+  }).join('');
+
+  let feedbackHtml = '';
+  if (saved !== null) {
+    const cls = saved.correct ? 'feedback correct-fb show' : 'feedback wrong-fb show';
+    const label = saved.correct ? '✓ Correct' : '✗ Incorrect';
+    feedbackHtml = `<div class="${cls}">
+      <strong>${label}</strong>
+      ${q.expl}
+      <button class="ai-btn" onclick="askAI(${currentQuestion})" id="aiBtn${currentQuestion}">🤖 Ask Claude for deeper explanation</button>
+      <div class="ai-explain-box" id="aiBox${currentQuestion}"></div>
+    </div>`;
+  }
+
+  document.getElementById('quizArea').innerHTML = `
+    <div class="q-card">
+      <div class="q-meta">
+        <span class="q-number">Question ${currentQuestion + 1} of ${total}</span>
+        <span class="q-difficulty ${diffClass[q.diff] || 'diff-basic'}">${diffLabel[q.diff] || 'Foundational'}</span>
+      </div>
+      <div class="q-text">${q.q}</div>
+      <div class="options">${optsHtml}</div>
+      ${feedbackHtml}
+    </div>`;
+
+  // Controls
+  const nextBtn = document.getElementById('nextBtn');
+  const finishBtn = document.getElementById('finishBtn');
+  const restartBtn = document.getElementById('restartBtn');
+  nextBtn.disabled = saved === null;
+  nextBtn.style.display = '';
+  finishBtn.style.display = answered === total ? '' : 'none';
+  restartBtn.style.display = 'none';
+
+  // Nav grid
+  renderNavGrid();
+}
+
+function renderNavGrid() {
+  const topic = topics[currentTopic];
+  const grid = document.getElementById('qNavGrid');
+  grid.innerHTML = topic.questions.map((_, i) => {
+    const saved = topicAnswers[currentTopic][i];
+    let cls = 'q-dot';
+    if (i === currentQuestion) cls += ' current';
+    else if (saved !== null && saved.correct) cls += ' answered-correct';
+    else if (saved !== null && !saved.correct) cls += ' answered-wrong';
+    return `<button class="${cls}" onclick="jumpTo(${i})">${i + 1}</button>`;
+  }).join('');
+}
+
+function jumpTo(idx) {
+  currentQuestion = idx;
+  renderQuestion();
+}
+
+function selectAnswer(selected) {
+  const q = topics[currentTopic].questions[currentQuestion];
+  const correct = selected === q.ans;
+  topicAnswers[currentTopic][currentQuestion] = { selected, correct };
+  renderQuestion();
+}
+
+function nextQuestion() {
+  const total = topics[currentTopic].questions.length;
+  if (currentQuestion < total - 1) {
+    currentQuestion++;
+    renderQuestion();
+  }
+}
+
+function prevQuestion() {
+  if (currentQuestion > 0) {
+    currentQuestion--;
+    renderQuestion();
+  }
+}
+
+function showResults() {
+  const topic = topics[currentTopic];
+  const answers = topicAnswers[currentTopic];
+  const correct = answers.filter(a => a !== null && a.correct).length;
+  const total = topic.questions.length;
+  const pct = Math.round((correct / total) * 100);
+
+  let grade, msg;
+  if (pct >= 90) { grade = 'A+'; msg = 'Outstanding performance. You have a thorough command of this material — excellent exam preparation.'; }
+  else if (pct >= 80) { grade = 'A'; msg = 'Strong performance. You demonstrate solid understanding of the key concepts.'; }
+  else if (pct >= 70) { grade = 'B'; msg = 'Good effort. Review the questions you missed to strengthen your weaker areas.'; }
+  else if (pct >= 60) { grade = 'C'; msg = 'Satisfactory, but there is room for improvement. Focus on the concepts behind incorrect answers.'; }
+  else { grade = 'D'; msg = 'You need more review of this topic. Re-read the material and retake the quiz.'; }
+
+  document.getElementById('quizArea').style.display = 'none';
+  document.getElementById('controls').style.display = 'none';
+  document.getElementById('qNavPanel').style.display = 'none';
+
+  const panel = document.getElementById('resultsPanel');
+  panel.innerHTML = `
+    <div class="results-grade">${grade}</div>
+    <div class="results-pct">${pct}% — ${correct} out of ${total} correct</div>
+    <div class="results-stats">
+      <div class="stat-item">
+        <div class="stat-num" style="color:var(--green)">${correct}</div>
+        <div class="stat-label">Correct</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num" style="color:var(--red)">${total - correct}</div>
+        <div class="stat-label">Incorrect</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">${total}</div>
+        <div class="stat-label">Total</div>
+      </div>
+    </div>
+    <div class="results-msg">${msg}</div>
+    <button class="btn btn-primary" onclick="restartTopic()">Retake This Topic</button>
+  `;
+  panel.classList.add('show');
+  document.getElementById('progressFill').style.width = `${pct}%`;
+  document.getElementById('progressFraction').textContent = `${total} / ${total}`;
+}
+
+function restartTopic() {
+  topicAnswers[currentTopic] = new Array(topics[currentTopic].questions.length).fill(null);
+  currentQuestion = 0;
+  document.getElementById('resultsPanel').classList.remove('show');
+  document.getElementById('quizArea').style.display = '';
+  document.getElementById('controls').style.display = '';
+  document.getElementById('qNavPanel').style.display = '';
+  renderQuestion();
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  AI EXPLANATION via Anthropic API
+// ═══════════════════════════════════════════════════════════════
+async function askAI(qIdx) {
+  const btn = document.getElementById(`aiBtn${qIdx}`);
+  const box = document.getElementById(`aiBox${qIdx}`);
+  if (!btn || !box) return;
+
+  const topic = topics[currentTopic];
+  const q = topic.questions[qIdx];
+  const letters = ['A', 'B', 'C', 'D'];
+
+  btn.disabled = true;
+  btn.textContent = 'Loading...';
+  box.classList.add('show');
+  box.innerHTML = `<div class="ai-loading"><div class="spinner"></div> Claude is preparing a detailed explanation...</div>`;
+
+  const prompt = `You are a banking and finance professor explaining a concept to a bachelor's degree student studying Banking & Finance.
+
+The student answered a multiple-choice exam question. Please provide a clear, thorough explanation (3-5 sentences) covering:
+1. Why the correct answer is right
+2. The key underlying concept
+3. A brief note on why any common wrong answers are incorrect
+
+Question: ${q.q}
+
+Options:
+${q.opts.map((o, i) => `${letters[i]}) ${o}`).join('\n')}
+
+Correct Answer: ${letters[q.ans]}) ${q.opts[q.ans]}
+
+Brief explanation already given: ${q.expl}
+
+Please expand on this with deeper academic insight relevant to banking and finance studies. Keep your response clear and educational, using plain language.`;
+
+  try {
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 1000,
+        messages: [{ role: "user", content: prompt }]
+      })
+    });
+
+    const data = await response.json();
+    const text = data.content?.map(c => c.text || '').join('') || 'No explanation available.';
+    box.innerHTML = `<strong style="font-family:'IBM Plex Mono',monospace;font-size:0.68rem;color:var(--gold);text-transform:uppercase;letter-spacing:0.08em;display:block;margin-bottom:8px;">Claude's Explanation</strong>${text.replace(/\n/g, '<br>')}`;
+    btn.textContent = '🤖 Explanation loaded';
+  } catch (err) {
+    box.innerHTML = `<em style="color:var(--gray)">Could not load explanation. Please check your connection and try again.</em>`;
+    btn.textContent = '🤖 Try again';
+    btn.disabled = false;
+  }
+}
+
+// ── Init ──
+initAnswers();
+renderQuestion();
+</script>
+</body>
+</html>
